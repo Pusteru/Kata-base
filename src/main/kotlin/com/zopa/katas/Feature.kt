@@ -1,31 +1,39 @@
 package com.zopa.katas
 
+import com.zopa.katas.Fruit.*
+import sun.invoke.empty.Empty
 
-val elements: MutableList<Fruit> = mutableListOf()
 
 enum class Fruit(val price: Int, val discount: Int) {
   Apple(100, 0),
   Cherry(70, 20),
-  Banana(130, 0)
+  Banana(130, 0),
+  Empty(0, 0)
 }
 
 fun main() {
   while (true) {
     val result = readLine()!!
-    val fruit = try {
-      Fruit.valueOf(result)
-    } catch (e: Exception) {
-      println(calculateSum(elements))
-      continue
-    }
-    elements.add(fruit)
-    println(calculateSum(elements))
+    println(calculateSum(parseLine(result)))
   }
+}
+
+fun parseLine(line: String): List<Fruit> {
+  return line.split(",")
+    .map {
+      when (it) {
+        "Apple" -> Apple
+        "Cherry" -> Cherry
+        "Banana" -> Banana
+        else -> Empty
+      }
+    }
+    .toList()
 }
 
 fun calculateSum(elements: List<Fruit>): Int {
   val sum = elements.map { it.price }.sum()
-  val totalDiscount = Fruit.values()
+  val totalDiscount = values()
     .map { fruits ->
       fruits to elements.count { it == fruits }
     }
