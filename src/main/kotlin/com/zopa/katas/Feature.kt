@@ -1,5 +1,9 @@
 package com.zopa.katas
 
-class Feature {
 
+fun main() {
+  while (true) {
+    val result = readLine()
+    println(result)
+  }
 }
