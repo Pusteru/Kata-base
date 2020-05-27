@@ -1,6 +1,7 @@
 package com.zopa.katas
 
 import spock.lang.Specification
+import spock.lang.Unroll
 
 import static com.zopa.katas.Fruit.*
 
@@ -14,12 +15,20 @@ class FeatureShould extends Specification {
     result == Cherry.discount + Banana.discount
   }
 
-  def "calculate sum"() {
+  @Unroll
+  def "calculate iteration #fruits = #result"() {
     expect:
-    def fruits = [Apple, Cherry, Cherry, Banana, Banana, Banana]
-    def discount = Cherry.discount + Banana.discount
-    def result = FeatureKt.calculateSum(fruits)
 
-    result == Apple.price + Cherry.price * 2 + Banana.price * 3 - discount
+    FeatureKt.calculateSum(fruits) == result
+
+    where:
+    fruits                               | result
+    [Manzana, Manzana, Manzana]          | 200
+    [Manzana, Manzana, Manzana, Manzana] | 300
+    [Apple, Apple, Apple, Apple]         | 300
+    [Pomme, Pomme]                       | 50
+    [Pomme, Pomme, Pomme]                | 150
+    [Apple] * 5                          | 200
+    [Apple] * 10                         | 400
   }
 }
